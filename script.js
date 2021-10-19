@@ -38,3 +38,30 @@ function maskPhone(selector, masked = '+7 (___) ___-__-__') {
     }
 
     maskPhone('input[type="tel"]')
+
+//Version 2
+const phoneInput = document.querySelector('.input--phone')
+phoneInput.addEventListener('keydown', function(event) {
+   if( !(event.key == 'ArrowLeft' || event.key == 'ArrowRight' || event.key == 'Backspace' || event.key == 'Tab')) { event.preventDefault() }
+    let mask = '+7 (111) 111-11-11'; // Задаем маску
+ 
+    if (/[0-9\+\ \-\(\)]/.test(event.key)) {
+        // Здесь начинаем сравнивать this.value и mask
+        // к примеру опять же
+        let currentString = this.value;
+        let currentLength = currentString.length;
+        if (/[0-9]/.test(event.key)) {
+            if (mask[currentLength] == '1') {
+                this.value = currentString + event.key;
+            } else {
+                for (var i=currentLength; i<mask.length; i++) {
+                if (mask[i] == '1') {
+                    this.value = currentString + event.key;
+                    break;
+                }
+                currentString += mask[i];
+                }
+            }
+        }
+    } 
+});
